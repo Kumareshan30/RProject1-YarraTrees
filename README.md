@@ -1,61 +1,94 @@
-# Urban Tree Data Visualization - Tableau Project
+# Yarra Trees Data Visualization - R Shiny Project
 
 ## Project Overview
-This Tableau project analyzes urban tree data to uncover patterns in tree species distribution, planting trends, and location-based insights. The dataset contains detailed records of tree species, planting years, and geographic locations. The project provides interactive visualizations to explore:
-- The spatial distribution of tree species
-- Trends in tree planting over time
-- The relationship between tree species and planting locations
+
+This project implements an **interactive data visualization application** using **R Shiny, ggplot2, and Leaflet** to analyze and explore tree data from Yarra, Melbourne. The application allows users to interact with a **map visualization**, filter trees based on specific attributes, and view additional **static visualizations** for deeper insights into the dataset.
+
+The application features:
+
+- **Interactive Leaflet Map**: Displays tree locations with filters for **DBH (Diameter at Breast Height) and Height**.
+- **DBH vs. Height Scatter Plot**: Visualizes the relationship between tree size and height, grouped by genus.
+- **Boxplot of Tree Heights**: Shows the frequency distribution of tree heights across different genus types.
+- **User Interaction**: Provides a dynamic interface with **sliders** to adjust DBH and height filters.
+
 
 
 ## Folder Structure
-Tableau Project 1- Urban Trees Visualization/
+RProject1-YarraTrees/
 
-   ├── PE1-trees-data-v2.csv      # Main dataset containing tree data
+   ├── yarra-trees-PE2.csv      # Main dataset containing Yarra tree data
       
-   ├── Urban_Tree_Data_Visualization.twb  # Tableau workbook containing all dashboards
+   ├── YarraTreesAnalysis.R  # Main R Shiny application script
    
    ├── README.md  # Project documentation
    
 
 ## Installation
-To view and interact with the Tableau dashboards, install Tableau Public or Tableau Desktop:
-1. Download Tableau Public: https://public.tableau.com/en-us/s/download
-2. Open Urban_Tree_Data_Visualization.twb in Tableau.
+
+Ensure you have **R** and **RStudio** installed. Then install the required R packages using:
+
+```r
+install.packages(c("shiny", "leaflet", "ggplot2", "dplyr"))
+```
+
+## Usage
+
+1. Open **RStudio** and load the `YarraTreesAnalysis.R` file.
+2. Run the application by executing:
+```r
+   shiny::runApp("app.R")
+```
+3. Interact with the map visualization by applying filters for tree DBH and height.
+4. Explore the scatter plot and boxplot for further analysis.
 
 ## Dataset Description
-- **PE1-trees-data-v2.csv**: The dataset includes information on urban trees, such as:
-  - **Common Name**: The species of the tree.
-  - **Scientific Name**: Botanical name of the species.
-  - **Genus & Family**: Taxonomic classification.
-  - **Date Planted & Year Planted**: Planting history.
-  - **Age Description**: Categorization of tree maturity.
-  - **Longitude & Latitude**: Geographic coordinates of trees.
-  - **Located In**: Whether the tree is in a park, street, or other location.
+
+- **yarra-trees-PE2.csv**: This dataset contains detailed records of trees in Yarra, Melbourne. It includes the following attributes:
+  - **Species**: The scientific name of the tree species.
+  - **Genus**: The higher classification of the tree.
+  - **DBH (Diameter at Breast Height)**: The trunk diameter measured at 1.3m above the ground.
+  - **Height**: The total height of the tree in meters.
+  - **Age**: The estimated age of the tree.
+  - **Longitude & Latitude**: The geographic coordinates of the tree.
 
 
-## Results & Analysis
-The Tableau workbook contains the following dashboards and insights:
 
-### 1. Data Cleaning and Anomaly Detection
-- **Textual Data Errors in Common Names**: Special characters were present in some tree names. This was resolved using a find-and-replace method.
-- **Longitudinal Errors in Plant Location**: A tree was found outside Melbourne, which was an error in data collection and was removed.
-- **Future Dated Entries**: A Callery Pear tree was recorded as planted in 2024, which is impossible. This record was ignored.
+## Methodology
 
-### 2. Tree Planting Trends Over Time
-- **Genus Types Planted Each Year** (Fig 5): The number of trees planted from different Genus groups was analyzed.
-  - Post-2005, the number of trees planted annually became stable, especially in Ulmus, Quercus, Croymbia, and Platanus groups.
-  - Eucalyptus saw a peak in 2013 but fluctuated between 500-1000 annually after that.
-  - Pre-2004, tree planting was more erratic but at a significantly higher volume.
-- **Yearly Trends in Tree Planting** (Fig 6): Overlaid discrete line graphs confirmed that post-2005 tree planting volumes were a fraction of pre-2004 levels.
-- **Running Sum of Trees Planted per Genus** (Fig 7):
-  - Eucalyptus was found to be the most planted genus, making up nearly 33% of all trees.
-  - Other Genus groups, except "Other," never exceeded 5000 trees in total.
+### 1. Data Preprocessing
 
-### 3. Spatial Distribution of Trees
-- **Tree Locations Across Melbourne** (Fig 8):
-  - Eucalyptus is concentrated in central city areas.
-  - Croymbia is more dominant near water bodies.
-- **Location Preference of Genus Groups** (Fig 9):
-  - Eucalyptus is commonly planted in parks.
-  - Platanus is predominantly found on streets.
-  - These spatial distributions do not impact the overall conclusions about planting trends.
+- **Dataset Used**: `yarra-trees-PE2.csv` (contains tree species, DBH, height, genus, and location attributes).
+- **Data Filtering**: Applied based on user-selected DBH and height values.
+
+### 2. Interactive Leaflet Map
+
+- **Markers**: Circle markers representing trees.
+- **Color Mapping**: Tree **age** mapped to a **Greens** color palette.
+- **Size Mapping**: Marker size adjusted based on **DBH (scaled by 0.1)**.
+- **Popups**: Display tree details such as species, genus, age, height, and DBH when clicked.
+- **Sliders**: Allow filtering of trees based on **DBH and height**.
+
+### 3. Visualization 1: DBH vs Height Scatter Plot
+
+- **Graph Type**: Scatter plot using `ggplot2`.
+- **X-axis**: **DBH** (Diameter at Breast Height).
+- **Y-axis**: **Tree Height**.
+- **Color Encoding**: Points colored by **Genus**.
+- **Insights**:
+  - Shows the distribution of tree sizes by genus.
+  - Highlights correlations between tree height and DBH.
+
+### 4. Visualization 2: Tree Height Distribution Boxplot
+
+- **Graph Type**: Boxplot using `ggplot2`.
+- **X-axis**: **Tree Height**.
+- **Y-axis**: **Genus** (Tree type classification).
+- **Insights**:
+  - Shows median, quartiles, and outliers in tree heights.
+  - Provides insights into variation in height among different tree species.
+
+
+## Notes
+
+- Modify the **color palette** in Leaflet if needed for better visibility.
+- Experiment with additional **filters** (e.g., tree age, species) to enhance interactivity.
